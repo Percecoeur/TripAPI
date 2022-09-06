@@ -1,4 +1,4 @@
-package com.amadeus.trip.model.request;
+package com.amadeus.trip.model.dto;
 
 import com.amadeus.trip.model.Bound;
 import io.swagger.annotations.ApiModelProperty;
@@ -6,7 +6,6 @@ import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.StringJoiner;
 

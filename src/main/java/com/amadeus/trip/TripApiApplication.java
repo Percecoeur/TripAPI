@@ -35,7 +35,13 @@ public class TripApiApplication { //implements CommandLineRunner {
   @Bean
   CommandLineRunner init(RoleRepository roleRepository, UserRepository userRepository) {
 
-    log.info("INITIALIZING ROLES");
+    /** This is only for initializtion purpose and to avoid to load data directly in DB
+     * This should be removed if moved to prod of course
+     */
+    log.info("--- First Initialization ---");
+    log.info("name=user, password=password, role=ROLE_USER");
+    log.info("name=admin, password=password, role=ROLE_ADMIN");
+    log.info("----------------------------");
 
     return args -> {
 
@@ -51,7 +57,7 @@ public class TripApiApplication { //implements CommandLineRunner {
         User user = new User();
         user.setUsername("user");
         user.setPassword(bCryptPasswordEncoder.encode("password"));
-        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.USER).get())));
+        user.setRoles(roleRepository.findByName(Constants.USER).map(Collections::singleton).get());
         userRepository.save(user);
       }
 
@@ -59,7 +65,7 @@ public class TripApiApplication { //implements CommandLineRunner {
         User user = new User();
         user.setUsername("admin");
         user.setPassword(bCryptPasswordEncoder.encode("password"));
-        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.ADMIN).get())));
+        user.setRoles(roleRepository.findByName(Constants.ADMIN).map(Collections::singleton).get());
         userRepository.save(user);
       }
     };

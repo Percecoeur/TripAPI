@@ -4,7 +4,7 @@ import com.amadeus.trip.model.Trip;
 import com.amadeus.trip.model.User;
 import com.amadeus.trip.model.repository.RoleRepository;
 import com.amadeus.trip.model.repository.UserRepository;
-import com.amadeus.trip.model.request.TripDTO;
+import com.amadeus.trip.model.dto.TripDTO;
 import com.amadeus.trip.service.TaskService;
 import com.amadeus.trip.utils.Constants;
 import io.swagger.annotations.ApiOperation;
@@ -22,8 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/v0")
@@ -42,8 +40,8 @@ public class NotifApi {
 
   @ApiOperation(value = "Will create a new trip for the user")
   @RolesAllowed({ Constants.USER, Constants.ADMIN })
-  @PostMapping(value = "/addtrip", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
-  public ResponseEntity<?> addtrip(@Valid @RequestBody TripDTO tripRequest, @RequestHeader("authorization") String authorization) {
+  @PostMapping(value = "/trip", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+  public ResponseEntity<?> addTripNotif(@Valid @RequestBody TripDTO tripRequest, @RequestHeader("authorization") String authorization) {
 
     log.info(tripRequest);
     log.info(authorization);
@@ -57,7 +55,7 @@ public class NotifApi {
     Trip trip = Trip.builder().bounds(tripRequest.getBounds()).passenger(user).build();
     ts.createNotifications(trip);
 
-    return new ResponseEntity<Trip>(trip, HttpStatus.OK);
+    return new ResponseEntity<>(trip, HttpStatus.OK);
   }
 
 }

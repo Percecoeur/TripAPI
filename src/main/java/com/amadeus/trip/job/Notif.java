@@ -6,7 +6,7 @@ import lombok.extern.log4j.Log4j2;
 public class Notif implements Runnable {
 
   private String message;
-  private String[] parameters;
+  private Object parameters;
 
   public Notif(String message, String... parameters) {
     this.message = message;

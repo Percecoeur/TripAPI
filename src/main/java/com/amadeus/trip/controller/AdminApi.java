@@ -2,10 +2,10 @@ package com.amadeus.trip.controller;
 
 import com.amadeus.trip.model.Role;
 import com.amadeus.trip.model.User;
+import com.amadeus.trip.model.dto.UserDTO;
 import com.amadeus.trip.model.exception.RoleException;
 import com.amadeus.trip.model.repository.RoleRepository;
 import com.amadeus.trip.model.repository.UserRepository;
-import com.amadeus.trip.model.request.UserDTO;
 import com.amadeus.trip.utils.Constants;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,12 +40,9 @@ public class AdminApi {
   private RoleRepository roleRepository;
 
   //  @PostMapping("/token")
-  //  public ResponseEntity<?> token(@Valid @RequestBody ) {}
+  //  public ResponseEntity<?> connect(@Valid @RequestBody ) {}
   //
-  //  @PostMapping("/register")
-  //  public ResponseEntity<?> register(@Valid @RequestBody ) {
-  //  }
-  //
+
   @ApiOperation(value = "Will create a new user with role")
   @PostMapping("/register")
   public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO) {
@@ -82,7 +78,7 @@ public class AdminApi {
         .build();
 
     newUser = userRepository.save(newUser);
-    log.info("User has been added" + newUser);
+    log.debug("User has been added" + newUser);
 
     return new ResponseEntity<>(newUser, HttpStatus.OK);
   }
@@ -103,8 +99,9 @@ public class AdminApi {
     return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
   }
 
-  @GetMapping("/list/headers")
-  public ResponseEntity<String> listAllHeaders(
+  // UTILS
+  @GetMapping("//list/headers")
+  public ResponseEntity<?> listAllHeaders(
       @RequestHeader Map<String, String> headers) {
     headers.forEach((key, value) -> {
       log.info(String.format("Header '%s' = %s", key, value));
@@ -113,7 +110,5 @@ public class AdminApi {
     return new ResponseEntity<String>(
         String.format("Listed %d headers", headers.size()), HttpStatus.OK);
   }
-
-
 
 }
