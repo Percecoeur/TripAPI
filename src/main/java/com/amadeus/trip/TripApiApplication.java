@@ -51,7 +51,7 @@ public class TripApiApplication { //implements CommandLineRunner {
         User user = new User();
         user.setUsername("user");
         user.setPassword(bCryptPasswordEncoder.encode("password"));
-        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.USER))));
+        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.USER).get())));
         userRepository.save(user);
       }
 
@@ -59,7 +59,7 @@ public class TripApiApplication { //implements CommandLineRunner {
         User user = new User();
         user.setUsername("admin");
         user.setPassword(bCryptPasswordEncoder.encode("password"));
-        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.ADMIN))));
+        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.ADMIN).get())));
         userRepository.save(user);
       }
     };

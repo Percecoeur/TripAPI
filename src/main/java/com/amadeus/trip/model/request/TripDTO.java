@@ -1,17 +1,23 @@
 package com.amadeus.trip.model.request;
 
 import com.amadeus.trip.model.Bound;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.StringJoiner;
 
 @Data
 public class TripDTO {
-  @NotNull(message = "A trip must contain at least one bound.")
+  @NotEmpty(message = "A trip must contain at least one bound.")
+  @ApiModelProperty(notes = "Name", example = "John", required = true)
   private List<Bound> bounds;
-  @NotNull(message = "A trip must contain a passenger.")
+
+  @NotBlank(message = "A trip must contain a passenger.")
+  @ApiModelProperty(notes = "Name", example = "John", required = true)
   private String passengerName;
 
   @Override public String toString() {

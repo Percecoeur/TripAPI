@@ -2,9 +2,10 @@ package com.amadeus.trip.controller;
 
 import com.amadeus.trip.model.Role;
 import com.amadeus.trip.model.User;
-import com.amadeus.trip.model.request.UserDTO;
+import com.amadeus.trip.model.exception.RoleException;
 import com.amadeus.trip.model.repository.RoleRepository;
 import com.amadeus.trip.model.repository.UserRepository;
+import com.amadeus.trip.model.request.UserDTO;
 import com.amadeus.trip.utils.Constants;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
@@ -39,32 +40,51 @@ public class AdminApi {
   @Autowired
   private RoleRepository roleRepository;
 
-
-//  @PostMapping("/token")
-//  public ResponseEntity<?> token(@Valid @RequestBody ) {}
-//
-//  @PostMapping("/register")
-//  public ResponseEntity<?> register(@Valid @RequestBody ) {
-//  }
-//
+  //  @PostMapping("/token")
+  //  public ResponseEntity<?> token(@Valid @RequestBody ) {}
+  //
+  //  @PostMapping("/register")
+  //  public ResponseEntity<?> register(@Valid @RequestBody ) {
+  //  }
+  //
   @ApiOperation(value = "Will create a new user with role")
-  @RolesAllowed({ Constants.ADMIN })
-  @PostMapping("/adduser")
-  public ResponseEntity<User> adduser(@RequestBody UserDTO userDTO) {
+  @PostMapping("/register")
+  public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO) {
 
-    //  we need to reference the DB objects so we have to find them first (can we avoid this?)
+    // Check first that this user does not exist
+    if (userRepository.existsByUsername(userDTO.getUsername())) {
+      return new ResponseEntity<>("User already exists : " + userDTO.getUsername(), HttpStatus.BAD_REQUEST);
+    }
+
     Set<Role> userRoles = userDTO.getRoles();
+    if (userRoles.isEmpty()) {
+      // Default value to USER role
+      userRoles.add(Role.builder().name(Constants.USER).build());
+    }
     Set<Role> dbRoles = new HashSet<>();
-    userRoles.forEach(r -> dbRoles.add(roleRepository.findByName(r.getName())));
+    //  we need to reference the DB objects so we have to find them first (can we avoid this?)
+    try {
+      userRoles.forEach(r -> {
+        Role role = roleRepository.findByName(r.getName())
+            .orElseThrow(() -> new RoleException("Following role is not found " + r.getName()));
+        dbRoles.add(role);
+      });
 
-    User newUser = new User();
-    newUser.setRoles(dbRoles);
-    newUser.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
-    newUser.setUsername(userDTO.getUsername());
+    } catch (RoleException re) {
+      return new ResponseEntity<>(re.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    User newUser = User.builder()
+        .password(bCryptPasswordEncoder.encode(userDTO.getPassword()))
+        .email(userDTO.getEmail())
+        .username(userDTO.getUsername())
+        .roles(dbRoles)
+        .build();
+
     newUser = userRepository.save(newUser);
     log.info("User has been added" + newUser);
 
-    return new ResponseEntity<User>(newUser, HttpStatus.OK);
+    return new ResponseEntity<>(newUser, HttpStatus.OK);
   }
 
   @GetMapping("/listHeaders")
@@ -85,22 +105,22 @@ public class AdminApi {
     return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
   }
 
-//  @ApiOperation(value = "Register a new trip for notification")
-//  @RolesAllowed({ Constants.USER, Constants.ADMIN })
-//  @PostMapping("/register")
-//  public ResponseEntity<String> register(@RequestHeader("authorization") String authorization, String body) {
-//
-//
-//    log.info("Received API CALL");
-//    return new ResponseEntity<String>(authorization, HttpStatus.OK);
-//  }
-//
-//  @ApiOperation(value = "Only allowed to registered user")
-//  @RolesAllowed({ Constants.USER })
-//  @PostMapping("/user")
-//  public ResponseEntity<String> user(String body) {
-//
-//    log.info("Received API CALL");
-//    return new ResponseEntity<String>("Received", HttpStatus.OK);
-//  }
+  //  @ApiOperation(value = "Register a new trip for notification")
+  //  @RolesAllowed({ Constants.USER, Constants.ADMIN })
+  //  @PostMapping("/register")
+  //  public ResponseEntity<String> register(@RequestHeader("authorization") String authorization, String body) {
+  //
+  //
+  //    log.info("Received API CALL");
+  //    return new ResponseEntity<String>(authorization, HttpStatus.OK);
+  //  }
+  //
+  //  @ApiOperation(value = "Only allowed to registered user")
+  //  @RolesAllowed({ Constants.USER })
+  //  @PostMapping("/user")
+  //  public ResponseEntity<String> user(String body) {
+  //
+  //    log.info("Received API CALL");
+  //    return new ResponseEntity<String>("Received", HttpStatus.OK);
+  //  }
 }

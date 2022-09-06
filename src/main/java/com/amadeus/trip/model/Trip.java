@@ -3,6 +3,8 @@ package com.amadeus.trip.model;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -11,7 +13,7 @@ import java.util.StringJoiner;
 @Data
 @Builder
 public class Trip {
-  @NotNull(message = "A trip must contain at least one bound.")
+  @NotEmpty(message = "A trip must contain at least one bound.")
   private List<Bound> bounds;
   @NotNull(message = "A trip must contain a passenger.")
   private User passenger;
