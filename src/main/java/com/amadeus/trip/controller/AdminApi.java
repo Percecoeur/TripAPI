@@ -87,7 +87,23 @@ public class AdminApi {
     return new ResponseEntity<>(newUser, HttpStatus.OK);
   }
 
-  @GetMapping("/listHeaders")
+  @ApiOperation(value = "List users")
+  @RolesAllowed({ Constants.ADMIN })
+  @GetMapping("/list/users")
+  public ResponseEntity<?> listUsers() {
+
+    return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
+  }
+
+  @ApiOperation(value = "List roles")
+  @RolesAllowed({ Constants.ADMIN })
+  @GetMapping("/list/roles")
+  public ResponseEntity<?> listRoles() {
+
+    return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
+  }
+
+  @GetMapping("/list/headers")
   public ResponseEntity<String> listAllHeaders(
       @RequestHeader Map<String, String> headers) {
     headers.forEach((key, value) -> {
@@ -98,29 +114,6 @@ public class AdminApi {
         String.format("Listed %d headers", headers.size()), HttpStatus.OK);
   }
 
-  @ApiOperation(value = "List users")
-  @RolesAllowed({ Constants.ADMIN })
-  @GetMapping("/listuser")
-  public ResponseEntity<List<User>> listuser() {
-    return new ResponseEntity<List<User>>(userRepository.findAll(), HttpStatus.OK);
-  }
 
-  //  @ApiOperation(value = "Register a new trip for notification")
-  //  @RolesAllowed({ Constants.USER, Constants.ADMIN })
-  //  @PostMapping("/register")
-  //  public ResponseEntity<String> register(@RequestHeader("authorization") String authorization, String body) {
-  //
-  //
-  //    log.info("Received API CALL");
-  //    return new ResponseEntity<String>(authorization, HttpStatus.OK);
-  //  }
-  //
-  //  @ApiOperation(value = "Only allowed to registered user")
-  //  @RolesAllowed({ Constants.USER })
-  //  @PostMapping("/user")
-  //  public ResponseEntity<String> user(String body) {
-  //
-  //    log.info("Received API CALL");
-  //    return new ResponseEntity<String>("Received", HttpStatus.OK);
-  //  }
+
 }

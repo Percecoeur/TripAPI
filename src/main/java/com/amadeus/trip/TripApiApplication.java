@@ -39,11 +39,11 @@ public class TripApiApplication { //implements CommandLineRunner {
 
     return args -> {
 
-      if (roleRepository.findByName(Constants.ADMIN) == null) {
+      if (roleRepository.findByName(Constants.ADMIN).isEmpty()) {
         roleRepository.save(new Role(Constants.ADMIN));
       }
 
-      if (roleRepository.findByName(Constants.USER) == null) {
+      if (roleRepository.findByName(Constants.USER).isEmpty()) {
         roleRepository.save(new Role(Constants.USER));
       }
 
