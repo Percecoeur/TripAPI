@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -38,19 +39,27 @@ public class TripApiApplication { //implements CommandLineRunner {
 
     return args -> {
 
-      if (roleRepository.findByName(Constants.ROLE_ADMIN) == null) {
-        roleRepository.save(new Role(Constants.ROLE_ADMIN));
+      if (roleRepository.findByName(Constants.ADMIN) == null) {
+        roleRepository.save(new Role(Constants.ADMIN));
       }
 
-      if (roleRepository.findByName(Constants.ROLE_USER) == null) {
-        roleRepository.save(new Role(Constants.ROLE_USER));
+      if (roleRepository.findByName(Constants.USER) == null) {
+        roleRepository.save(new Role(Constants.USER));
       }
 
-      if (userRepository.findUserByUsername("cyril") == null) {
+      if (userRepository.findByUsername("user") == null) {
         User user = new User();
-        user.setUsername("cyril");
+        user.setUsername("user");
         user.setPassword(bCryptPasswordEncoder.encode("password"));
-        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.ROLE_USER))));
+        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.USER))));
+        userRepository.save(user);
+      }
+
+      if (userRepository.findByUsername("admin") == null) {
+        User user = new User();
+        user.setUsername("admin");
+        user.setPassword(bCryptPasswordEncoder.encode("password"));
+        user.setRoles(new HashSet<>(Collections.singletonList(roleRepository.findByName(Constants.ADMIN))));
         userRepository.save(user);
       }
     };

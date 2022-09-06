@@ -1,7 +1,9 @@
 package com.amadeus.trip.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,8 +18,10 @@ public class User {
   @Id
   private String id;
   private String username;
-  private String password;
   private String email;
+  @JsonIgnore
+  private String password;
+
   @DBRef
   private Set<Role> roles = new HashSet<>();
 

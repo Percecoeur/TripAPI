@@ -1,12 +1,22 @@
 logging:
   level:
-    com.amadeus.trip.*: DEBUG
-    org.springframework.jms.*: DEBUG
+    com.amadeus.trip.*: INFO
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   data:
     mongodb:
       uri: mongodb://localhost:27017
       database: trips
 
+thread:
+  pool:
+    size: 10
+    name: "ThreadPoolScheduler"
 
+server:
+  error:
+    include-message: always
+    include-binding-errors: always

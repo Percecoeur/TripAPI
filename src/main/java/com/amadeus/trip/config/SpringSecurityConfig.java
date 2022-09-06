@@ -52,6 +52,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf()
         .disable()
         .authorizeRequests()
+        .antMatchers("swagger-ui.html").permitAll()
+        .antMatchers("/swagger-resources/**").permitAll()
         .and()
         .httpBasic()
         .and()
