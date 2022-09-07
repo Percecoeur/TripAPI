@@ -64,22 +64,19 @@ public class QuartzTaskService implements TaskService {
   }
 
   private void scheduleMyJob(String message, Date triggerJobAt) throws TaskException {
+    JobDetail jobDetail = JobBuilder.newJob(QrtzJob.class)
+        .usingJobData(Constants.NOTIF_MESSAGE, message)
+        .build();
+
+    SimpleTrigger trigger = TriggerBuilder.newTrigger()
+        .startAt(triggerJobAt)
+        .withSchedule(SimpleScheduleBuilder.simpleSchedule())
+        .build();
     try {
-      quartzScheduler.scheduleJob(getJobDetail(message), getTrigger(triggerJobAt));
+      quartzScheduler.scheduleJob(jobDetail, trigger);
     } catch (SchedulerException e) {
       throw new TaskException("Quartz is not able to launch this task");
     }
   }
 
-  private JobDetail getJobDetail(String message) {
-    return JobBuilder.newJob(QrtzJob.class)
-        .usingJobData(Constants.NOTIF_MESSAGE, message)
-        .build();
-  }
-
-  private SimpleTrigger getTrigger(Date triggerJobAt) {
-    return TriggerBuilder.newTrigger().startAt(triggerJobAt)
-        .withSchedule(SimpleScheduleBuilder.simpleSchedule())
-        .build();
-  }
 }
