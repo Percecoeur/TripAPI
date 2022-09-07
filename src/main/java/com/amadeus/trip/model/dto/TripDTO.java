@@ -12,17 +12,12 @@ import java.util.StringJoiner;
 @Data
 public class TripDTO {
 
-  @NotBlank(message = "A trip must contain a passenger.")
-  @ApiModelProperty(notes = "Name", example = "John", required = true, position = 1)
-  private String passengerName;
-
   @NotEmpty(message = "A trip must contain at least one bound.")
   private List<Bound> bounds;
 
   @Override public String toString() {
     return new StringJoiner(", ", TripDTO.class.getSimpleName() + "[", "]")
         .add("bounds=" + bounds)
-        .add("passenger=" + passengerName)
         .toString();
   }
 }

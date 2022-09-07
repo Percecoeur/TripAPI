@@ -1,11 +1,14 @@
 package com.amadeus.trip;
 
+import com.amadeus.trip.job.QrtzJob;
 import com.amadeus.trip.model.Role;
 import com.amadeus.trip.model.User;
 import com.amadeus.trip.model.repository.RoleRepository;
 import com.amadeus.trip.model.repository.UserRepository;
 import com.amadeus.trip.utils.Constants;
 import lombok.extern.log4j.Log4j2;
+import org.quartz.JobBuilder;
+import org.quartz.JobDetail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -69,6 +72,8 @@ public class TripApiApplication { //implements CommandLineRunner {
         userRepository.save(user);
       }
     };
+
+
 
   }
 

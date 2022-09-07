@@ -16,14 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.HashSet;
-import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -43,8 +41,9 @@ public class AdminApi {
   //  public ResponseEntity<?> connect(@Valid @RequestBody ) {}
   //
 
-  @ApiOperation(value = "Will create a new user with role")
-  @PostMapping("/register")
+  @ApiOperation(value = "Will create a new user with role",
+      notes = "You do not need to be logged.")
+  @PostMapping("/auth/register")
   public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO) {
 
     // Check first that this user does not exist
