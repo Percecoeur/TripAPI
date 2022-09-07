@@ -80,7 +80,7 @@ public class AdminApi {
     newUser = userRepository.save(newUser);
     log.debug("User has been added" + newUser);
 
-    return new ResponseEntity<>(newUser, HttpStatus.OK);
+    return new ResponseEntity<>("User has been created successfully.", HttpStatus.OK);
   }
 
   @ApiOperation(value = "List users")
@@ -97,18 +97,6 @@ public class AdminApi {
   public ResponseEntity<?> listRoles() {
 
     return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
-  }
-
-  // UTILS
-  @GetMapping("//list/headers")
-  public ResponseEntity<?> listAllHeaders(
-      @RequestHeader Map<String, String> headers) {
-    headers.forEach((key, value) -> {
-      log.info(String.format("Header '%s' = %s", key, value));
-    });
-
-    return new ResponseEntity<String>(
-        String.format("Listed %d headers", headers.size()), HttpStatus.OK);
   }
 
 }

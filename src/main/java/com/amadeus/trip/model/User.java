@@ -1,6 +1,7 @@
 package com.amadeus.trip.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
@@ -21,12 +22,18 @@ public class User {
   @Id
   @JsonIgnore
   private String id;
+
   @NotBlank
+  @ApiModelProperty(notes = "Name", example = "John", required = true, position = 1)
   private String username;
+
   @NotBlank
+  @ApiModelProperty(notes = "Email", example = "john@deuf.com", required = true, position = 2)
   private String email;
+
   @JsonIgnore
   @NotBlank
+  @ApiModelProperty(notes = "Password", example = "qwertyuiop", required = true, position = 3)
   private String password;
 
   @DBRef
