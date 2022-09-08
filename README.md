@@ -136,14 +136,14 @@ Input example
     }
 ```
 Success response example
-```JSON
+```TEXT
 User has been created successfully.
 ```
 Fail response example
-```JSON
+```TEXT
 User already exists : bob
 ```
-```JSON
+```TEXT
 Following role is not found ROLE_GOD
 ```
 
@@ -155,7 +155,8 @@ This is triggered when an input is missing a field (username/password/email)
     "status": 400,
     "error": "Bad Request",
     "message": "Validation failed for object='userDTO'. Error count: 1"
-    ...
+    
+}
 ```
 ### Notification
 
