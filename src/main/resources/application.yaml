@@ -33,3 +33,6 @@ quartz:
     org.quartz.jobStore.collectionPrefix: qrtz
     org.quartz.threadPool.threadCount: 1
 
+jwt:
+  secret: mylittlesecret
+  expiration: 600

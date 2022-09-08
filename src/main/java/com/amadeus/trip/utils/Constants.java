@@ -15,5 +15,6 @@ public class Constants {
   public static final String USER = "ROLE_USER";
   public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
   public static final String BASIC = "Basic";
+  public static final String BEARER = "Bearer";
   public static final String NOTIF_MESSAGE = "message";
 }

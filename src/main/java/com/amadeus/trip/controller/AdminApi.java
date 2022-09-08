@@ -1,17 +1,25 @@
 package com.amadeus.trip.controller;
 
+import com.amadeus.trip.config.JwtConfig;
 import com.amadeus.trip.model.Role;
 import com.amadeus.trip.model.User;
+import com.amadeus.trip.model.dto.ConnectDTO;
 import com.amadeus.trip.model.dto.UserDTO;
 import com.amadeus.trip.model.exception.RoleException;
 import com.amadeus.trip.model.repository.RoleRepository;
 import com.amadeus.trip.model.repository.UserRepository;
+import com.amadeus.trip.service.jwt.JwtWrapper;
 import com.amadeus.trip.utils.Constants;
+import com.amadeus.trip.utils.Utils;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,17 +37,28 @@ import java.util.Set;
 @Log4j2
 public class AdminApi {
 
-  private static final String OK = "Message sent !";
+  @Autowired
+  JwtConfig jwtConfig;
   @Autowired
   PasswordEncoder bCryptPasswordEncoder;
+  @Autowired
+  AuthenticationManager authenticationManager;
   @Autowired
   private UserRepository userRepository;
   @Autowired
   private RoleRepository roleRepository;
 
-  //  @PostMapping("/token")
-  //  public ResponseEntity<?> connect(@Valid @RequestBody ) {}
-  //
+  @PostMapping("/token")
+  public ResponseEntity<?> token(@Valid @RequestBody ConnectDTO connectDTO) {
+
+    Authentication authentication = authenticationManager.authenticate(
+        new UsernamePasswordAuthenticationToken(connectDTO.getUsername(), connectDTO.getPassword()));
+
+    SecurityContextHolder.getContext().setAuthentication(authentication);
+    String jwt = Utils.createToken(authentication, jwtConfig.getExpiration(), jwtConfig.getSecret());
+
+    return ResponseEntity.ok(JwtWrapper.builder().token(jwt).build());
+  }
 
   @ApiOperation(value = "Will create a new user with role",
       notes = "You do not need to be logged.")
