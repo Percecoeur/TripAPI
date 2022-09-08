@@ -25,7 +25,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/v0")
+@RequestMapping("/admin")
 @Log4j2
 public class AdminApi {
 
@@ -43,7 +43,7 @@ public class AdminApi {
 
   @ApiOperation(value = "Will create a new user with role",
       notes = "You do not need to be logged.")
-  @PostMapping("/auth/register")
+  @PostMapping("/register")
   public ResponseEntity<?> register(@Valid @RequestBody UserDTO userDTO) {
 
     // Check first that this user does not exist

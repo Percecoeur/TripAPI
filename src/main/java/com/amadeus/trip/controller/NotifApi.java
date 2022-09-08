@@ -25,9 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,13 +41,10 @@ import java.time.Instant;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/v0")
+@RequestMapping("/notif")
 @Log4j2
 public class NotifApi {
 
-  private static final String OK = "Message sent !";
-  @Autowired
-  PasswordEncoder bCryptPasswordEncoder;
   @Autowired
   TaskService springTaskService;
 
@@ -57,19 +52,17 @@ public class NotifApi {
   TaskService quartzTaskService;
 
   @Autowired
-  QuartzConfig quartzConfig;
-
-  @Autowired
   Scheduler scheduler;
 
   @Autowired
   private UserRepository userRepository;
+
   @Autowired
   private RoleRepository roleRepository;
 
   @ApiOperation(value = "Will create a new trip for the user" )
   @RolesAllowed({ Constants.USER, Constants.ADMIN })
-  @PostMapping(value = "/notif/trip", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
+  @PostMapping(value = "/trip", consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE })
   public ResponseEntity<?> addTripNotif(@Valid @RequestBody TripDTO tripRequest,  @ApiParam(name = "is Quartz Enabled", value = "on / off", defaultValue = "off") @RequestParam(required = false) String quartz, @RequestHeader("authorization") String authenticationHeader) {
 
     try {

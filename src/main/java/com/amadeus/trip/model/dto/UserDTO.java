@@ -4,6 +4,7 @@ import com.amadeus.trip.model.Role;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,15 +16,16 @@ import java.util.Set;
 public class UserDTO {
   private static final long serialVersionUID = 1L;
 
-  @NotBlank
+  @NotBlank(message = "A username is required")
   @ApiModelProperty(notes = "Name", example = "John", required = true, position = 1)
   private String username;
 
-  @NotBlank
+  @NotBlank(message = "A valid email is required")
+  @Email
   @ApiModelProperty(notes = "Email", example = "john@deuf.com", required = true, position = 2)
   private String email;
 
-  @NotBlank
+  @NotBlank(message = "A password is required")
   @ApiModelProperty(notes = "Password", example = "qwertyuiop", required = true, position = 3)
   private String password;
 
