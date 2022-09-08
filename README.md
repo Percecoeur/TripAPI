@@ -37,7 +37,11 @@ At first launch, a default initialization is provided that will create data in m
 After startup, you can review the API swagger documentation by accessing </p>
 http://localhost:8080/swagger-ui.html
 
-### Administration 
+NOTES : All APIs can be used with different authentication mechanism 
+* Basic auth : This is available if you pull the main branch of the repository
+* Access Token (JWT) : This authentication mechanism is available in the feature/jwt branch of the repository
+
+### Administration APIs
 
 #### List Users 
 
@@ -158,7 +162,7 @@ This is triggered when an input is missing a field (username/password/email)
     
 }
 ```
-### Notification
+### Notification APIs
 
 #### Trip notification
 **SECURED by authentication and role = ROLE_USER/ROLE_ADMIN** </p>
@@ -227,14 +231,16 @@ For Quartz :
 #### JWT
 
 ### Schedulers
-#### Spring
+
+2 Implementations are available for the schedulers. The Pros and cons are available below.
+#### Spring Task Scheduler
 * Pros - Easy setup : 
 * Cons - Lack of Scalability : In a cloud environment where multiple instances of the same application exists, the triggers could be executed multiple times
 * Cons - Lack of Persistence : No persistence OOTB... we would need a custom implementation
 * Cons - Lack of automatic recovery : In case of the application crashes, since all triggers and jobs are in memory, they will need to be recreated
 
 
-#### Quartz
+#### Quartz scheduler
 Quartz would be obviously a better choice for production environments as it allows : </p>
 * Pros - Scalability : In a cloud environment where multiple instances of the same application exists, Quartz is able to adapt so the triggers are only performed once
 * Pros - Persistence : We will be able to persist our jobs and triggers in DB thus allowing reporting for instance
