@@ -1,0 +1,428 @@
+{
+	"info": {
+		"_postman_id": "2af9bc2e-ca9d-4883-ae5b-d1ed8a6f0600",
+		"name": "TripAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10207814"
+	},
+	"item": [
+		{
+			"name": "Basic",
+			"item": [
+				{
+					"name": "listUsers",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/list/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"list",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listRoles",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/list/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"list",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegisterUser",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"username\": \"bob\",\r\n        \"password\": \"password\",\r\n        \"email\": \"mon@email\",\r\n        \"roles\": [\r\n            {\r\n                \"name\": \"ROLE_USER\"\r\n            }\r\n        ]\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add trip",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bounds\": [\r\n         {\r\n            \"origin\": \"Nice\",\r\n            \"destination\": \"Paris CDG\",\r\n            \"departureTime\": \"2022-09-08 06:10\",\r\n            \"arrivalTime\": \"2022-09-08 07:10\"\r\n        },\r\n        {\r\n            \"origin\": \"Paris CDG\",\r\n            \"destination\": \"Nice\",\r\n            \"departureTime\": \"2022-09-08 07:10\",\r\n            \"arrivalTime\": \"2022-09-08 11:10\"\r\n        }     \r\n    ]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/notif/trip",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notif",
+								"trip"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add trip  quartz",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bounds\": [\r\n         {\r\n            \"origin\": \"Nice\",\r\n            \"destination\": \"Paris CDG\",\r\n            \"departureTime\": \"2022-09-08 06:10\",\r\n            \"arrivalTime\": \"2022-09-08 07:10\"\r\n        },\r\n        {\r\n            \"origin\": \"Paris CDG\",\r\n            \"destination\": \"Nice\",\r\n            \"departureTime\": \"2022-09-08 07:10\",\r\n            \"arrivalTime\": \"2022-09-08 11:10\"\r\n        }     \r\n    ]\r\n\r\n}\r\n\r\n\r\n   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/notif/trip?quartz=on",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notif",
+								"trip"
+							],
+							"query": [
+								{
+									"key": "quartz",
+									"value": "on"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Jwt",
+			"item": [
+				{
+					"name": "token",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listUsers",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY2MjcxMTg5MywiZXhwIjoxNjYyNzEyNDkzfQ.vvMgGtcrrGSKaON8D-HiRP2u4UIuSIxKd84HSMwrdsFJrA8P-tQrFS8CqMrbTGiVUxNU0f_WYj-C1SVixkla-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/list/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"list",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "listRoles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY2MjcxMTg5MywiZXhwIjoxNjYyNzEyNDkzfQ.vvMgGtcrrGSKaON8D-HiRP2u4UIuSIxKd84HSMwrdsFJrA8P-tQrFS8CqMrbTGiVUxNU0f_WYj-C1SVixkla-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/admin/list/roles",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"list",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RegisterUser",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"username\": \"bob\",\r\n        \"password\": \"password\",\r\n        \"email\": \"mon@email\",\r\n        \"roles\": [\r\n            {\r\n                \"name\": \"ROLE_ADMIN\"\r\n            }\r\n        ]\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/admin/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"admin",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add trip",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY2MjcxMTg5MywiZXhwIjoxNjYyNzEyNDkzfQ.vvMgGtcrrGSKaON8D-HiRP2u4UIuSIxKd84HSMwrdsFJrA8P-tQrFS8CqMrbTGiVUxNU0f_WYj-C1SVixkla-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bounds\": [\r\n         {\r\n            \"origin\": \"Nice\",\r\n            \"destination\": \"Paris CDG\",\r\n            \"departureTime\": \"2022-09-08 06:10\",\r\n            \"arrivalTime\": \"2022-09-08 07:10\"\r\n        },\r\n        {\r\n            \"origin\": \"Paris CDG\",\r\n            \"destination\": \"Nice\",\r\n            \"departureTime\": \"2022-09-08 07:10\",\r\n            \"arrivalTime\": \"2022-09-08 11:10\"\r\n        }     \r\n    ]\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/notif/trip",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notif",
+								"trip"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add trip  quartz",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY2MjcxMTg5MywiZXhwIjoxNjYyNzEyNDkzfQ.vvMgGtcrrGSKaON8D-HiRP2u4UIuSIxKd84HSMwrdsFJrA8P-tQrFS8CqMrbTGiVUxNU0f_WYj-C1SVixkla-A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"bounds\": [\r\n         {\r\n            \"origin\": \"Nice\",\r\n            \"destination\": \"Paris CDG\",\r\n            \"departureTime\": \"2022-09-08 06:10\",\r\n            \"arrivalTime\": \"2022-09-08 07:10\"\r\n        },\r\n        {\r\n            \"origin\": \"Paris CDG\",\r\n            \"destination\": \"Nice\",\r\n            \"departureTime\": \"2022-09-08 07:10\",\r\n            \"arrivalTime\": \"2022-09-08 11:10\"\r\n        }     \r\n    ]\r\n\r\n}\r\n\r\n\r\n   ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/notif/trip?quartz=on",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"notif",
+								"trip"
+							],
+							"query": [
+								{
+									"key": "quartz",
+									"value": "on"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
