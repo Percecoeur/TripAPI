@@ -5,12 +5,14 @@ import com.amadeus.trip.model.Role;
 import com.amadeus.trip.model.User;
 import com.amadeus.trip.model.dto.ConnectDTO;
 import com.amadeus.trip.model.dto.UserDTO;
+import com.amadeus.trip.model.exception.AuthenticationException;
 import com.amadeus.trip.model.exception.RoleException;
 import com.amadeus.trip.model.repository.RoleRepository;
 import com.amadeus.trip.model.repository.UserRepository;
 import com.amadeus.trip.service.jwt.JwtWrapper;
 import com.amadeus.trip.utils.Constants;
 import com.amadeus.trip.utils.Utils;
+import io.jsonwebtoken.Jwts;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -104,16 +107,48 @@ public class AdminApi {
   @ApiOperation(value = "List users")
   @RolesAllowed({ Constants.ADMIN })
   @GetMapping("/list/users")
-  public ResponseEntity<?> listUsers() {
+  public ResponseEntity<?> listUsers(@RequestHeader("authorization") String authenticationHeader) {
+    try {
+      String token = Utils.extractTokenFromJwt(authenticationHeader);
+      String tokenUser = Jwts.parser()
+          .setSigningKey(jwtConfig.getSecret())
+          .parseClaimsJws(token)
+          .getBody()
+          .getSubject();
 
+      User user = userRepository.findByUsername(tokenUser);
+      if (user == null) {
+        throw new AuthenticationException("Your user is not found: " + tokenUser);
+      }
+    } catch (AuthenticationException ae) {
+      return ResponseEntity
+          .badRequest()
+          .body(ae.getMessage());
+    }
     return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
   }
 
   @ApiOperation(value = "List roles")
   @RolesAllowed({ Constants.ADMIN })
   @GetMapping("/list/roles")
-  public ResponseEntity<?> listRoles() {
+  public ResponseEntity<?> listRoles(@RequestHeader("authorization") String authenticationHeader) {
+    try {
+      String token = Utils.extractTokenFromJwt(authenticationHeader);
+      String tokenUser = Jwts.parser()
+          .setSigningKey(jwtConfig.getSecret())
+          .parseClaimsJws(token)
+          .getBody()
+          .getSubject();
 
+      User user = userRepository.findByUsername(tokenUser);
+      if (user == null) {
+        throw new AuthenticationException("Your user is not found: " + tokenUser);
+      }
+    } catch (AuthenticationException ae) {
+      return ResponseEntity
+          .badRequest()
+          .body(ae.getMessage());
+    }
     return new ResponseEntity<>(roleRepository.findAll(), HttpStatus.OK);
   }
 
