@@ -152,7 +152,7 @@ Following role is not found ROLE_GOD
 ```
 
 In case of an input failure you will receive a validation failed message </p>
-This is triggered when an input is missing a field (username/password/email)
+This is triggered when an input field is missing or incorrect (username/password/email)
 ```JSON
 {
     "timestamp": "2022-09-08T08:22:30.158+00:00",
@@ -226,9 +226,20 @@ For Quartz :
 ## Technical choices
 
 ### Authentication
+
+2 Implementations are available for authentication. The Pros and cons are available below.
+
 #### Basic authentication
+* Pros - Easy to setup / test
+* Cons - Does not provide a high level of security
+* Cons - user/password is sent in every request in base64 encoding which is easy to decode
+* Cons - This method of authentication is most often not advised for any production setup even on https
 
 #### JWT
+* Pros - Way more secure than basic auth
+* Pros - Token is encrypted with a secret key meaning that decoding is difficult
+* Pros - Can be extended with some more secure frameworks like OAuth2 (server authentication)
+* Cons - In case a token is stolen in a way, this gives access to all secured APIs to the hacker
 
 ### Schedulers
 
